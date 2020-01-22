@@ -12,9 +12,11 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -29,12 +31,20 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FreeTest {
 
     @Rule
     public ActivityTestRule<SplashScreen> mActivityTestRule = new ActivityTestRule<>(SplashScreen.class);
 
     @Test
+    public void A_FreeTest(){ freeTest(); }
+    @Test
+    public void B_SomeTest() { splashScreenTest(); }
+
+
+
     public void freeTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.playerone),
@@ -75,6 +85,49 @@ public class FreeTest {
                                 3),
                         isDisplayed()));
         appCompatEditText3.perform(replaceText("tb"), closeSoftKeyboard());
+
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.start), withText("start"),
+                        childAtPosition(
+                                allOf(withId(R.id.mainlayout),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatButton.perform(click());
+    }
+
+    public void splashScreenTest() {
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.playerone),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.mainlayout),
+                                        0),
+                                1),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("shanto"), closeSoftKeyboard());
+
+        ViewInteraction appCompatCheckBox = onView(
+                allOf(withId(R.id.player1o), withText(" O "),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        2),
+                                1),
+                        isDisplayed()));
+        appCompatCheckBox.perform(click());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.playertwo),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.mainlayout),
+                                        0),
+                                3),
+                        isDisplayed()));
+        appCompatEditText2.perform(replaceText("tahmina"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.start), withText("start"),
